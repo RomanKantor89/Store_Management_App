@@ -1,0 +1,33 @@
+<div class="container">
+
+    <h1>Add New Service</h1>
+    <form (ngSubmit)="onSubmit()" #addNewServiceForm="ngForm">
+        <!--
+        <div class="form-group">
+            <label class="control-label" for="serviceId">Service Id <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" id="serviceId" required [(ngModel)]="newService.serviceId"
+                name="serviceId">
+                <div [hidden]="serviceId.valid || name.pristine"
+                    class="alert alert-danger">
+                Name is required
+                </div>
+        </div>
+        -->
+
+        <div class="form-group">
+            <label class="control-label" for="serviceName">Service Name <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" id="serviceName" required [(ngModel)]="newService.name"
+                name="serviceName">
+        </div>
+
+        <div class="form-group">
+            <label class="control-label" for="serviceDescription">Service Description <span
+                    class="text-danger">*</span></label>
+            <input type="text" class="form-control" id="serviceDescription" required
+                [(ngModel)]="newService.serviceDescription" name="serviceDescription">
+        </div>
+
+        <button type="submit" class="btn btn-success" [disabled]="!addNewServiceForm.form.valid">Add</button>
+
+    </form>
+</div>

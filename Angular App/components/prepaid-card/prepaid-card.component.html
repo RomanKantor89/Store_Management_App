@@ -1,0 +1,84 @@
+<div class="row" *ngIf="user && user.card && (user.card.currBalance !== undefined)">
+  <div class="col">
+    <div class="prepaid-card">
+      <div class="card-description">
+        <h4>Green Cleaning & Stiching</h4>
+        <p>{{user.firstName}} {{user.lastName}}</p>
+      </div>
+      <div class="card-content">
+        <h2>${{user.card.currBalance}}</h2>
+        <p>Yesterday • 03:37PM</p>
+      </div>
+    </div>
+    <ul class="nav nav-pills">
+      <li class="nav-item">
+        <a [ngClass]="{'nav-link': true, 'active': selectedCardAction === 0}" (click)="selectedCardAction = 0"
+          routerLink="/prepaid-card">Add Funds</a>
+      </li>
+      <li class="nav-item">
+        <a [ngClass]="{'nav-link': true, 'active': selectedCardAction === 1}" (click)="selectedCardAction = 1"
+          routerLink="/prepaid-card">Delete Card</a>
+      </li>
+    </ul>
+    <div class="add-funds mt-3" *ngIf="selectedCardAction === 0">
+      <div class="input-group mb-3">
+        <select class="custom-select col-3" [(ngModel)]="activity.loadType" id="inputGroupSelect01">
+          <option value="Debit" selected>Debit</option>
+          <option value="Credit">Credit</option>
+          <option value="Paypal">Paypal</option>
+        </select>
+        <div class="input-group-prepend">
+          <span class="input-group-text">$</span>
+        </div>
+        <input type="number" [(ngModel)]="activity.amount" min="0" max="1000" class="form-control col-9"
+          placeholder="10.00" />
+      </div>
+      <button class="btn btn-primary" (click)="addFunds()"
+        [disabled]="!(activity.amount > 0 && activity.amount <= 1000)">Add Funds</button>
+    </div>
+    <div class="delete-card mt-3" *ngIf="selectedCardAction === 1">
+      <label>Type 'confirm' to confirm card deletion</label>
+      <input type="text" class="form-control mb-3" [(ngModel)]="confirmDeletion" placeholder="confirm" />
+      <button class="btn btn-danger" (click)="deleteCard()" [disabled]="confirmDeletion !== 'confirm'">Delete
+        Card</button>
+    </div>
+  </div>
+  <div class="col" *ngIf="user.card.activity[0]">
+    <ul class="list-group">
+      <li class="list-group-item" *ngFor="let activity of user.card.activity">
+        <div class="activity-item">
+          <div *ngIf="activity.activityType === 'load'">
+            <div class="item-details">
+              <span class="font-weight-bold">{{activity.loadType}}</span>
+              {{convTimeStampToDate(activity.timeStamp)}}
+            </div>
+            <span class="text-success">${{activity.amount}}</span>
+          </div>
+          <div *ngIf="activity.activityType === 'payment'">
+            <div class="item-details">
+              <div>
+                <span class="font-weight-bold">OrderId</span>
+                &nbsp;{{activity.orderId}}
+              </div>
+              {{convTimeStampToDate(activity.timeStamp)}}
+            </div>
+            <span class="text-danger">${{activity.amount}}</span>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div *ngIf="user && (!user.card || (user.card.currBalance === undefined))">
+  <div class="jumbotron">
+    <h1 class="display-4">Welcome to Green Cleaning & Stiching's Prepaid loyalty program</h1>
+    <p class="lead">A Prepaid card gives you access to exciting exclusive discounts, membership benefits and much more!
+    </p>
+    <hr class="my-4">
+    <p>Click the 'Join loyalty program' to continue.</p>
+    <p class="lead">
+      <button class="btn btn-primary" (click)="createCard()">Create Card</button>
+    </p>
+  </div>
+</div>

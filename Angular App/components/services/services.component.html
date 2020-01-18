@@ -1,0 +1,49 @@
+<div class="row">
+    <a class="btn btn-primary" routerLink="/service/add" *ngIf="admin">Add New Service</a>
+</div>
+<br />
+<div class="card-deck">
+    <div *ngFor="let s of Services;index as i" class="card" style="width: 50rem;">
+        <img [src]="s.image" class="card-img-top img-responsive" alt="Photo of service">
+        <div class="card-body">
+            <h5 class="card-title">{{s.name}}</h5>
+            <p class="card-text">{{s.serviceDescription}}</p>
+            <a routerLink="/service/update" class="btn btn-primary" *ngIf="admin">Update</a> &nbsp;
+            <button type="button" class="btn btn-primary" (click)="setSelected(i)" data-toggle="modal"
+                data-target="#orderDetailModal" *ngIf="isUserLoggedIn">Select Service</button>
+        </div>
+    </div>
+</div>
+
+<!-- The Modal -->
+<div class="modal" id="orderDetailModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header" *ngIf="Services">
+                <h4 class="modal-title">Select Items for {{Services[selectedService].name}}</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <form (ngSubmit)='onSubmit()' #f='ngForm'>
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <div *ngIf="isAdded">Selected items successfully added</div>
+                    <div *ngFor="let l of ItemLists; index as i">
+                        <div class="form-group">
+                            <label class="control-label" for="quantity">{{l.item.name}} - ${{l.item.price}}</label>
+                            <input class="form-control" type="number" id="quantity" name="quantity" [(ngModel)]="ItemLists[i].quantity"
+                                placeholder="{{i.quantity}}">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer" *ngIf="!isAdded" >
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary" [disabled]="!f.form.valid">Complete</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

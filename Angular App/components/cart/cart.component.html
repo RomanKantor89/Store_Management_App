@@ -1,0 +1,31 @@
+<div *ngIf="userAccount">
+    <p *ngIf="isEmpty">
+        Cart is empty.
+    </p>
+    
+    <div *ngIf="!isEmpty">
+        <table class="table table-striped table-bordered table-sm">
+            <ng-container *ngFor="let s of order.service">
+                <thead class="thead-dark">
+                    <tr>
+                        <th><h5>Service name: {{s.name}}</h5></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let i of s.itemList">
+                        <td>
+                            {{i.item.name}}
+                        </td>
+    
+                        <td>
+                            Quantity: {{i.quantity}}
+                        </td>
+                    </tr>
+                </tbody>
+            </ng-container>
+        </table>
+        <p><span class="font-weight-bold">Order Total :</span> ${{orderTotal}}</p>
+    </div>
+    <Button class="btn btn-primary" [disabled]="isEmpty || !userAccount.card" (click)="submitOrder()">Check Out with Pre-paid card</Button>
+</div>

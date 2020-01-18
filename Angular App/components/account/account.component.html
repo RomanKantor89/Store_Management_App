@@ -1,0 +1,100 @@
+<div class="my-4">
+    <h1 *ngIf="userAccount.firstName">Hi, {{userAccount.firstName}}!</h1>
+    <h4 class="text-muted">Update information by clicking the Update button</h4>
+    <p><span class="text-danger">*</span> Mandatory field</p>
+    <form (ngSubmit)='onSubmit()' #f='ngForm'>
+
+        <div class="form-group">
+            <label class="control-label" for="name">Username <span class="text-danger">*</span></label>
+            <input type="text" [(ngModel)]="userAccount.userName" class="form-control" id="username" name="username"
+                required minlength="3" maxlength="100" #username="ngModel">
+
+            <!-- Validation error area -->
+            <div *ngIf='username.invalid && (username.dirty || username.touched)' class='alert alert-danger'>
+                <div *ngIf='username.errors?.required'>User Name is required, 3 to 60 characters</div>
+                <div *ngIf='username.errors?.minlength'>User Name must be at least 3 characters</div>
+            </div>
+
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label class="control-label" for="firstName">First Name <span class="text-danger">*</span></label>
+                <input type="text" [(ngModel)]="userAccount.firstName" class="form-control" id="firstName"
+                    name="firstName" required minlength="3" maxlength="100">
+            </div>
+
+            <div class="form-group col-md-6">
+                <label class="control-label" for="lastName">Last Name <span class="text-danger">*</span></label>
+                <input type="text" [(ngModel)]="userAccount.lastName" class="form-control" id="lastName" name="lastName"
+                    required minlength="3" maxlength="100">
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label class="control-label" for="email">Email</label>
+                <input type="email" [(ngModel)]="userAccount.email" class="form-control" id="email" name="email"
+                    minlength="3" maxlength="100" #email="ngModel" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}">
+
+                <!-- Validation error area -->
+                <div *ngIf='email.invalid && (email.dirty || email.touched)' class='alert alert-danger'>
+                    <div *ngIf='email.errors?.required'>Email is required to be 3 to 60 characters</div>
+                    <div *ngIf='email.errors?.minlength'>Email must be at least 3 characters</div>
+                    <div *ngIf='email.errors?.pattern'>Email must be an email</div>
+                </div>
+
+            </div>
+            <div class="form-group">
+                <label class="control-label" for="phone">Phone Number</label>
+                <input type="tel" [(ngModel)]="userAccount.phone" class="form-control" id="phone" name="phone">
+            </div>
+        </div>
+
+        <hr />
+        <div>
+            <h4>Address <span class="text-danger">*</span></h4>
+            <div class="form-group">
+                <label class="control-label" for="houseNum">House No. <span class="text-danger">*</span></label>
+                <input type="text" [(ngModel)]="tempAddress.houseNum" class="form-control" id="houseNum"
+                    name="houseNum">
+            </div>
+            <div class="form-group">
+                <label class="control-label" for="street">Street <span class="text-danger">*</span></label>
+                <input type="text" [(ngModel)]="tempAddress.streetName" class="form-control" id="street" name="street">
+            </div>
+            <div class="form-row">
+                <div class="form-group col">
+                    <label class="control-label" for="city">City <span class="text-danger">*</span></label>
+                    <input type="text" [(ngModel)]="tempAddress.city" class="form-control" id="city" name="city">
+                </div>
+                <div class="form-group col">
+                    <label class="control-label" for="province">Province <span class="text-danger">*</span></label>
+                    <input type="text" [(ngModel)]="tempAddress.province" class="form-control" id="province"
+                        name="province">
+                </div>
+                <div class="form-group col">
+                    <label class="control-label" for="postalCode">Postal Code <span class="text-danger">*</span></label>
+                    <input type="text" [(ngModel)]="tempAddress.postalCode" class="form-control" id="postalCode"
+                        name="postalCode">
+                </div>
+            </div>
+            <button class="btn btn-primary my-1" type="button"
+                [disabled]="!(tempAddress.houseNum && tempAddress.streetName && tempAddress.city && tempAddress.province && tempAddress.postalCode)"
+                (click)="addAddress()">Add Address</button>
+            <ul class="list-group">
+                <li class="list-group-item" *ngFor="let address of userAccount.address; let index = index">
+                    <span class="text-danger" (click)="deleteAddress(index)" style="cursor: pointer;">Delete</span> |
+                    {{address.houseNum}} {{address.streetName}}, {{address.city}}, {{address.province}} -
+                    {{address.postalCode}}
+                </li>
+              </ul>
+          </div>
+          <hr/>
+        
+          <button class="btn btn-primary m-1" type="submit" [disabled]="!(f.form.valid && f.form.dirty)">Update</button>
+          <button class="btn btn-danger m-1" type="button" (click)="delete()">Delete</button>
+          <button class="btn btn-warning m-1" type="button" (click)="logout()">Logout</button>
+          <span *ngIf='message.length>0' class="text-danger">{{ message }}</span>
+        </form>
+      </div>

@@ -1,0 +1,42 @@
+<h2>Orders</h2>
+
+<div *ngIf='user.order.length == 0'>No Order</div>
+
+<div>
+  <table class="table table-striped">
+     
+    <thead>
+  
+    </thead>
+    <tbody>
+        <ng-container id="container" *ngFor="let o of user.order; index as i">
+           <a id="btn" class="btn btn-default" (click)="edit(user)">Update Order</a> &nbsp;
+            <a id="btn" class="btn btn-danger" (click)="delete(user, o._id)">Delete Order</a> <br><br>
+           <tr>
+             <td><h5>Status:</h5></td> 
+             <td colspan="5" >
+               <select [(ngModel)]="user.order[i].orderStatus">
+                 <option [selected]="user.order[i].orderStatus === 'completed'" value="completed">completed</option>
+                 <option [selected]="user.order[i].orderStatus === 'processing'" value="processing">processing</option>
+            </select>
+          </td>
+      
+          </tr>
+            <ng-container id="container" *ngFor="let s of o.service">
+              
+              <tr>
+                <td ><h5>Service Name:</h5></td>
+                <td colspan="5">{{s.name}}</td></tr>
+
+              <ng-container id="container" *ngFor="let l of s.itemList">
+                  <tr><td><h5>Item Name:</h5></td><td>{{l.item.name}}</td>
+                      <td><h5>Item Price:</h5></td><td>{{l.item.price}} </td>
+                      <td><h5>Item Quantity:</h5></td><td>{{l.quantity}}</td>
+                  </tr>
+              </ng-container>
+            </ng-container>
+           
+        </ng-container>
+    </tbody>
+  </table>
+</div>

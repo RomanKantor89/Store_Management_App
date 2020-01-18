@@ -1,0 +1,21 @@
+#btn {
+    color:white;
+  }
+
+  .btn-default{
+    background-color: rgb(15, 67, 211);
+  }
+
+
+  .table-striped tbody h5{
+    color: rgb(134, 52, 19);
+  }
+
+  .h5{
+    padding-right:0;
+    padding-left:0;
+}
+  
+  .table-striped tbody {
+    background-color: rgb(255, 255, 255);
+  }

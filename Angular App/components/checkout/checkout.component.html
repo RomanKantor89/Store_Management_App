@@ -1,0 +1,143 @@
+<div class="accordion" id="checkoutAccordion" *ngIf="user">
+    <form (ngSubmit)='onSubmit()' #f='ngForm'>
+        <div class="card">
+            <div class="card-header" id="headingOne">
+                <h5 class="mb-0">
+                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne"
+                        aria-expanded="true" aria-controls="collapseOne">
+                        Edit Information
+                    </button>
+                </h5>
+            </div>
+
+            <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#checkoutAccordion">
+
+                <div class="card-body">
+                    <div class="form-group">
+                        <label class="control-label" for="name">Username</label>
+                        <input type="text" [(ngModel)]="user.userName" class="form-control" id="username"
+                            name="username" #username="ngModel" readonly>
+                    </div>
+                    <div class="form-group">
+                        <div class="form-row">
+                            <div class="col">
+                                <label class="control-label" for="firstName">First Name <span
+                                        class="text-danger">*</span></label>
+                                <input type="text" [(ngModel)]="user.firstName" class="form-control" id="firstName"
+                                    name="firstName" required minlength="3" maxlength="100">
+                            </div>
+                            <div class="col">
+                                <label class="control-label" for="lastName">Last Name <span
+                                        class="text-danger">*</span></label>
+                                <input type="text" [(ngModel)]="user.lastName" class="form-control" id="lastName"
+                                    name="lastName" required minlength="3" maxlength="100">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+
+                        <div class="form-row">
+                            <div class="col">
+                                <label class="control-label" for="email">Email</label>
+                                <input type="text" [(ngModel)]="user.email" class="form-control" id="email" name="email"
+                                    minlength="3" maxlength="100" #email="ngModel"
+                                    pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}">
+
+                                <!-- Validation error area -->
+                                <div *ngIf='email.invalid && (email.dirty || email.touched)' class='alert alert-danger'>
+                                    <div *ngIf='email.errors?.required'>Email is required to be 3 to 60 characters</div>
+                                    <div *ngIf='email.errors?.minlength'>Email must be at least 3 characters</div>
+                                    <div *ngIf='email.errors?.pattern'>Email must be an email</div>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <label class="control-label" for="phone">Phone Number</label>
+                                <input type="text" [(ngModel)]="user.phone" class="form-control" id="phone"
+                                    name="phone">
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr />
+                    <div>
+
+                        <h4>Address <span class="text-danger">*</span></h4>
+
+                        <div class="form-group">
+                            <label class="mr-sm-2" for="addressSelect">Select Address</label>
+                            <select class="custom-select mr-sm-2" id="addressSelect" [(ngModel)]="selectedIndex"
+                                name="addressSelect">
+                                <option *ngFor="let address of user.address; let index = index" [value]="index">
+                                    {{address.houseNum}}, {{address.streetName}}, {{address.city}}, {{address.province}}
+                                    -
+                                    {{address.postalCode}}
+                                </option>
+                                <!--<option value="-1">Add New</option>-->
+                            </select>
+                        </div>
+
+                        <div *ngIf='selectedIndex == -1'>
+                            <div class="form-group">
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label class="control-label" for="housenum">House No.<span
+                                                class="text-danger">*</span></label>
+                                        <input type="text" [(ngModel)]="newAddress.houseNum" class="form-control"
+                                            id="housenum" name="housenum">
+                                    </div>
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label class="control-label" for="street">Street <span
+                                                    class="text-danger">*</span></label>
+                                            <input type="text" [(ngModel)]="newAddress.streetName" class="form-control"
+                                                id="street" name="street">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label" for="city">City <span class="text-danger">*</span></label>
+                                <input type="text" [(ngModel)]="newAddress.city" class="form-control" id="city"
+                                    name="city">
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label" for="street">Province <span
+                                        class="text-danger">*</span></label>
+                                <input type="text" [(ngModel)]="newAddress.province" class="form-control" id="province"
+                                    name="street">
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label" for="postalCode">Postal Code <span
+                                        class="text-danger">*</span></label>
+                                <input type="text" [(ngModel)]="newAddress.postalCode" class="form-control"
+                                    id="postalCode" name="postalCode">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="Card">
+            <div class="card-header" id="headingTwo">
+                <h5 class="mb-0">
+                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseTwo"
+                        aria-expanded="true" aria-controls="collapseTwo">
+                        Billing information
+                    </button>
+                </h5>
+            </div>
+
+            <div id="collapseTwo" class="collapse show" aria-labelledby="headingTwo" data-parent="#checkoutAccordion">
+                <div class="card-body">
+                    <p>Current Balance: {{user.card.currBalance}}</p>
+                    <p>Deducted Amount: {{orderTotal}}</p>
+                </div>
+            </div>
+        </div>
+        <hr />
+        <button class="btn btn-primary my-1" type="submit" [disabled]="!f.form.valid">Proceed</button>&nbsp;&nbsp;
+        <span *ngIf='message.length>0' class="text-danger">{{ message }}</span>
+    </form>
+</div>

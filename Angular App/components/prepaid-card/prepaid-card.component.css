@@ -1,0 +1,44 @@
+.prepaid-card {
+    width: 390px;
+    height: 260px;
+    margin: 20px auto;
+    background: #000000;
+    border-radius: 10px;
+    color: #FFFFFF;
+    padding: 15px;
+    position: relative;
+}
+
+.card-description {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+}
+
+.card-description>h4, .card-content>h2{
+    margin: 0px;
+}
+
+.card-description>p, .card-content>p {
+    color: #b3b3b3;
+}
+
+.card-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: inherit;
+}
+
+.activity-item div{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.item-details {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start !important;
+}

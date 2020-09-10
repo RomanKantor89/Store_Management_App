@@ -1,4 +1,4 @@
-# Store_Management_App (Not Complete - estimated completion date May 1, 2020)
+# Store_Management_App (Not Complete - estimated completion date May 1, 2021)
 * Roman Kantor
 * Arshdeep Singh
 * Chaoyi Wu
